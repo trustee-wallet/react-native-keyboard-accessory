@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Dimensions
 } from 'react-native';
+import { enableLayoutAnimations } from 'react-native-reanimated';
 
 const accessoryAnimation = (duration, easing, animationConfig = null) => {
 
@@ -91,9 +92,13 @@ class KeyboardAccessoryView extends Component {
       const { animationConfig, animateOn } = this.props;
 
       if (animateOn === 'all' || Platform.OS === animateOn) {
+        enableLayoutAnimations(false)
         LayoutAnimation.configureNext(
           accessoryAnimation(keyboardEvent.duration, keyboardEvent.easing, animationConfig)
         );
+        setTimeout(() => {
+            enableLayoutAnimations(true)
+        }, 100)
       }
 
       this.setState({
@@ -121,9 +126,13 @@ class KeyboardAccessoryView extends Component {
     const { animateOn, animationConfig } = this.props;
 
     if (animateOn === 'all' || Platform.OS === animateOn) {
+      enableLayoutAnimations(false)
       LayoutAnimation.configureNext(
         animationConfig || accessoryAnimation(keyboardEvent.duration, keyboardEvent.easing, animationConfig)
       );
+      setTimeout(() => {
+          enableLayoutAnimations(true)
+      }, 100)
     }
 
     this.setState({
